@@ -1,0 +1,52 @@
+{
+    "Records": [
+      {
+        "eventVersion": "2.0",
+        "eventSource": "minio:s3",
+        "awsRegion": "",
+        "eventTime": "2019-09-11T11:17:17Z",
+        "eventName": "s3:ObjectAccessed:Get",
+        "userIdentity": {
+          "principalId": ""
+        },
+        "requestParameters": {
+          "accessKey": "",
+          "region": "",
+          "sourceIPAddress": "127.0.0.1"
+        },
+        "responseElements": {
+          "content-length": "16384",
+          "x-amz-request-id": "15C35E2BC505CE54",
+          "x-minio-deployment-id": "af3a10cb-187b-4aaf-9ce5-4868e6d7c0f3",
+          "x-minio-origin-endpoint": "http://localhost:9000"
+        },
+        "s3": {
+          "s3SchemaVersion": "1.0",
+          "configurationId": "Config",
+          "bucket": {
+            "name": "107",
+            "ownerIdentity": {
+              "principalId": ""
+            },
+            "arn": "arn:aws:s3:::107"
+          },
+          "object": {
+            "key": "Krasavchik_60_UA.mp4",
+            "size": 6099869,
+            "eTag": "00000000000000000000000000000000-1",
+            "contentType": "video/mp4",
+            "userMetadata": {
+              "content-type": "video/mp4"
+            },
+            "versionId": "1",
+            "sequencer": "15C35E2BC528423E"
+          }
+        },
+        "source": {
+          "host": "127.0.0.1",
+          "port": "",
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
+        }
+      }
+    ]
+  }
