@@ -42,16 +42,15 @@ func NewElasticConn(conf *config.Config) (*Elastic, error) {
 	return &Elastic{Client: client}, nil
 }
 
-func (e *Elastic) PutIndex(id int) error {
+func (e *Elastic) PutIndex(id int, event map[string]interface{}) error {
 
-	e.event["eventTime"] = time.Now().Format(time.RFC3339)
+	event["eventTime"] = time.Now().Format(time.RFC3339)
 
-	fmt.Printf("%+v\n", e.event)
 	// Add a document to the index
 	_, err := e.Client.Index().
 		Index("bench").
 		Id(strconv.Itoa(id)).
-		BodyJson(e.event).
+		BodyJson(event).
 		Refresh("false").
 		Do(context.Background())
 	if err != nil {

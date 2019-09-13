@@ -2,7 +2,7 @@
 # Elasticsearch config. "elastic" will be read
 elastic:
   proto: "http"
-  host: "95.217.15.37"
+  host: "116.203.228.13"
   port: "9200"
   username: ""
   password: ""

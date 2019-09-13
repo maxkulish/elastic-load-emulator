@@ -1,84 +1,34 @@
 package main
 
 import (
-	"ElasticLoad/config"
-	"ElasticLoad/elasticd"
-	"context"
-	"encoding/json"
-	"io/ioutil"
+	"ElasticLoad/bench"
+	"flag"
+	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"time"
-
-	"github.com/olivere/elastic/v7"
+	"path/filepath"
 )
 
 func main() {
 
-	cfg, err := config.NewConfig()
+	if len(os.Args) == 1 || os.Args[1] == "-h" || os.Args[1] == "--help" {
+		fileName := filepath.Base(os.Args[0])
+		fmt.Printf("cd to directory from which you are planning to start the program.\n"+
+			"Place 'config.yml' and 'index.json' files in this directory.\n"+
+			"How to start load emulation:\n\t./%s -start=1 -stop=100\n", fileName)
+
+		os.Exit(1)
+	}
+
+	start := flag.Int("start", 0, "add start index number")
+	finish := flag.Int("finish", 100, "finish index number")
+
+	flag.Parse()
+
+	le, err := bench.NewLoadEmulator()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	conn, err := elasticd.NewElasticConn(cfg)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	event := PrepareEvent()
-
-	for i := 1; i <= 100; i++ {
-		err := PutIndex(i, event, conn.Client)
-		time.Sleep(1 * time.Second)
-		if err != nil {
-			log.Printf("Stopped at: %d", i)
-			break
-		}
-		log.Printf("sent index: %d", i)
-	}
-
-	log.Printf("finished. Started: %d, planned finish: %d", 0, 100)
-
-}
-
-func PutIndex(id int, event map[string]interface{}, client *elastic.Client) error {
-
-	event["eventTime"] = time.Now().Format(time.RFC3339)
-
-	// Add a document to the index
-	_, err := client.Index().
-		Index("bench").
-		Id(strconv.Itoa(id)).
-		BodyJson(event).
-		Refresh("false").
-		Do(context.Background())
-	if err != nil {
-		// Handle error
-		panic(err)
-	}
-	return err
-}
-
-func PrepareEvent() map[string]interface{} {
-
-	// Open our jsonFile
-	jsonFile, err := os.Open("./index.json")
-	// if we os.Open returns an error then handle it
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("successfully opened users.json")
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	var result map[string]interface{}
-	err = json.Unmarshal([]byte(byteValue), &result)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return result
+	le.RunPutIndexEmulator(*start, *finish)
 }
