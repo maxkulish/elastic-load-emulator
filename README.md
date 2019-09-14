@@ -87,3 +87,6 @@ If everything is OK you should get output:
 2019/09/14 10:50:49  Started: 1, finished: 100
 
 ```
+
+In Kibana you can find your results at page Discover
+![Kibana Discover page](https://cs1.fcdn.net/102/PublicImages/ElasticSearch.png)
