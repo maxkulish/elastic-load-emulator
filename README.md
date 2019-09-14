@@ -88,5 +88,5 @@ If everything is OK you should get output:
 
 ```
 
-In Kibana you can find your results at page Discover
+In Kibana you can find your results in the page Discover
 ![Kibana Discover page](https://cs1.fcdn.net/102/PublicImages/ElasticSearch.png)
