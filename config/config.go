@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	configFile = "./config.yml"
+	configFile = "/config.yml"
 )
 
 type Config struct {
@@ -28,9 +28,15 @@ type ElasticParams struct {
 
 func NewConfig() (*Config, error) {
 	c := &Config{}
-	yamlFile, err := ioutil.ReadFile(configFile)
+
+	dir, err := os.Getwd()
 	if err != nil {
-		createExampleConfig()
+		log.Fatal("can't read current directory")
+	}
+
+	yamlFile, err := ioutil.ReadFile(dir + configFile)
+	if err != nil {
+		//CreateExampleConfig()
 		return nil, errors.New("can't read config file")
 	}
 
@@ -42,19 +48,20 @@ func NewConfig() (*Config, error) {
 	return c, nil
 }
 
-func createExampleConfig() {
+func CreateExampleConfig() {
 	dir, err := os.Getwd()
 	if err != nil {
-		log.Fatal("can't create example config file")
+		log.Fatal("can't read current directory")
 	}
 
 	// Create file
-	file, err := os.Create(dir + "/config.yml")
+	file, err := os.Create(dir + configFile)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer file.Close()
 
-	config := `# Example Elasticsearch config. Put your data
+	config := `# Example ElasticSearch config. Put your data
 elastic:
   proto: "http"
   host: "1.1.1.1"
@@ -65,5 +72,7 @@ elastic:
 
 	// Write data to file
 	_, err = file.Write([]byte(config))
-	log.Fatal(err)
+	if err != nil {
+		log.Fatal("can't write data to config.yml file", err)
+	}
 }

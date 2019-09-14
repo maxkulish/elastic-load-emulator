@@ -2,6 +2,7 @@ package main
 
 import (
 	"ElasticLoad/bench"
+	"ElasticLoad/config"
 	"flag"
 	"fmt"
 	"log"
@@ -15,20 +16,29 @@ func main() {
 		fileName := filepath.Base(os.Args[0])
 		fmt.Printf("cd to directory from which you are planning to start the program.\n"+
 			"Place 'config.yml' and 'index.json' files in this directory.\n"+
-			"How to start load emulation:\n\t./%s -start=1 -stop=100\n", fileName)
+			"\nStart load emulation:\n\t./%s -start=1 -stop=100\n"+
+			"\nCreate example config and index:\n\t./%s -example\n", fileName, fileName)
 
 		os.Exit(1)
 	}
 
+	example := flag.Bool("example", true, "generate example index.json and config.yml")
 	start := flag.Int("start", 0, "add start index number")
-	finish := flag.Int("finish", 100, "finish index number")
+	stop := flag.Int("stop", 100, "finish index number")
 
 	flag.Parse()
+
+	if *example {
+		log.Println("Example config.yml and index.json created")
+		bench.CreateExampleIndexFile()
+		config.CreateExampleConfig()
+		os.Exit(1)
+	}
 
 	le, err := bench.NewLoadEmulator()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	le.RunPutIndexEmulator(*start, *finish)
+	le.RunPutIndexEmulator(*start, *stop)
 }
