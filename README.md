@@ -1,7 +1,23 @@
 # elastic-load-emulator
 Utility to put documents into Elastic index and emulate workload
 
-##How to use
+## How to install
+Linux
+```bash
+wget https://github.com/maxkulish/elastic-load-emulator/raw/master/bin/Linux/elasticLoad
+chmod +x elasticLoad
+./elasticLoad -example
+```
+
+
+MacOS
+```bash
+wget https://github.com/maxkulish/elastic-load-emulator/raw/master/bin/macOS/elasticLoad
+chmod +x elasticLoad
+./elasticLoad -example
+```
+
+## How to use
 
 1. Create index.json file.
 
