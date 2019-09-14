@@ -17,3 +17,6 @@
 # vendor/
 
 .idea
+
+config.yml
+index.json

@@ -70,7 +70,6 @@ func prepareEvent() map[string]interface{} {
 	// Open index jsonFile
 	jsonFile, err := os.Open(dir + indexFile)
 	if err != nil {
-		//CreateExampleIndexFile()
 		log.Fatalf("error loading index file <%s>. Error: %+v", dir+indexFile, err)
 	}
 	defer jsonFile.Close()

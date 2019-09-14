@@ -22,7 +22,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	example := flag.Bool("example", true, "generate example index.json and config.yml")
+	example := flag.Bool("example", false, "generate example index.json and config.yml")
 	start := flag.Int("start", 0, "add start index number")
 	stop := flag.Int("stop", 100, "finish index number")
 
